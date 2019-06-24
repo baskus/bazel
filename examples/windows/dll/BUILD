@@ -14,6 +14,7 @@ windows_dll_library(
     # Define COMPILING_DLL to export symbols during compiling the DLL.
     # See hello-library.h
     copts = ["/DCOMPILING_DLL"],
+    deps = ["//examples/windows/dll/some_library"],
 )
 
 # **Explicitly link to hellolib.dll**
