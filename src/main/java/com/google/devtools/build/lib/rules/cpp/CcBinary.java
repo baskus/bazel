@@ -571,6 +571,8 @@ public abstract class CcBinary implements RuleConfiguredTargetFactory {
       }
     }
 
+    Artifact firstArtifact = filesToBuild.iterator().next();
+
     // If the binary is linked dynamically and COPY_DYNAMIC_LIBRARIES_TO_BINARY is enabled, collect
     // all the dynamic libraries we need at runtime. Then copy these libraries next to the binary.
     if (featureConfiguration.isEnabled(CppRuleClasses.COPY_DYNAMIC_LIBRARIES_TO_BINARY)) {
@@ -632,6 +634,8 @@ public abstract class CcBinary implements RuleConfiguredTargetFactory {
         libraries,
         dwoArtifacts,
         fake);
+
+    ruleBuilder.addOutputGroup("first_artifact", filesToBuild.iterator().next());
 
     // Support test execution on darwin.
     if (ApplePlatform.isApplePlatform(ccToolchain.getTargetCpu())
