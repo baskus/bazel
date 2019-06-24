@@ -1277,10 +1277,16 @@ public final class RuleContext extends TargetContext
       String attributeName, TransitiveInfoCollection target) {
     if (target != null) {
       Iterable<Artifact> artifacts = target.getProvider(FileProvider.class).getFilesToBuild();
-      if (Iterables.size(artifacts) == 1) {
+      long count = Iterables.size(artifacts);
+      if (count == 1) {
         return Iterables.getOnlyElement(artifacts);
       } else {
-        attributeError(attributeName, target.getLabel() + " expected a single artifact");
+        String artifactsString = "";
+        for (Artifact artifact : artifacts)
+        {
+            artifactsString += "  " + artifact.getRootRelativePath() + "\n";
+        }
+        attributeError(attributeName, target.getLabel() + " expected a single artifact but got " + count + ":\n" + artifactsString);
       }
     }
     return null;
